@@ -1,12 +1,23 @@
 import React from 'react'
+import { ToastContainer } from "react-toastify"
 import { Navigation } from "./routes"
-import {ClientLayout} from "./layouts"
+import { AuthProvider } from "./context"
 
 export default function App() {
   return (
-    <div className='app'>
-      {/* <h1 className='app_title'>Holaaa</h1> */}
+    <AuthProvider>
       <Navigation/>
-    </div>
+      <ToastContainer
+        position='bottom-center'
+        autoClose={5000}
+        hideProgressBar
+        newestOnTop
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover={false}
+      />
+    </AuthProvider>
   )
 }
