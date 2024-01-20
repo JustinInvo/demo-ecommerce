@@ -12,11 +12,11 @@ class UserApiViewSet(ModelViewSet):
     serializer_class = UserSerializer
     queryset = User.objects.all()
 
-    def create(self, request, *args, **kwargs): # se ejecuta cuando se crea el usuario
+    def create(self, request, *args, **kwargs): # se ejecuta cuando se crea el usuario y encripta contraseña
         request.data['password'] = make_password(request.data['password'])
         return super().create(request, *args, **kwargs)
     
-    def partial_update(self, request, *args, **kwargs): # se ejecuta cuando se actualiza el usuario
+    def partial_update(self, request, *args, **kwargs): # se ejecuta cuando se actualiza el usuario y encripta contraseña
         password = request.data['password']
         if password:
             request.data['password'] = make_password(password)
