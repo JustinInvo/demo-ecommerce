@@ -1,18 +1,18 @@
 import { useState } from "react";
-import { getProductsApi, addProductApi, updateProductApi, deleteProductApi } from "../api/product"
+import { getTablesApi, addTableApi, updateTableApi, deleteTableApi } from "../api/table";
 import { useAuth } from "./"
 
-export function useProduct(){
+export function useTable(){
   const [ loading, setLoading ] = useState(true)
   const [ error, setError ] = useState(false)
-  const [ products, setProducts ] = useState(true)
+  const [ tables, setTables ] = useState(true)
   const { auth } = useAuth()
 
-  const getProducts = async () => {
+  const getTables = async () => {
     try{
       setLoading(true)
-      const response = await getProductsApi()
-      setProducts(response)
+      const response = await getTablesApi(auth.token)
+      setTables(response)
     }catch(error){
       setError(error)
     }finally{
@@ -20,11 +20,10 @@ export function useProduct(){
     }
   }
 
-  const addProduct = async (data) => {
+  const addTable = async (data) => {
     try{
       setLoading(true)
-      await addProductApi(data, auth.token)
-      setProducts(response)
+      await addTableApi(data, auth.token)
     }catch(error){
       setError(error)
     }finally{
@@ -32,11 +31,10 @@ export function useProduct(){
     }
   }
 
-  const updateProduct = async (id, data) => {
+  const updateTable = async (id, data) => {
     try{
       setLoading(true)
-      await updateProductApi(id, data, auth.token)
-      setProducts(response)
+      await updateTableApi(id, data, auth.token)
     }catch(error){
       setError(error)
     }finally{
@@ -44,10 +42,10 @@ export function useProduct(){
     }
   }
 
-  const deleteProduct = async (id) => {
+  const deleteTable = async (id) => {
     try{
       setLoading(true)
-      await deleteProductApi(id, auth.token)
+      await deleteTableApi(id, auth.token)
     }catch(error){
       setError(error)
     }finally{
@@ -58,10 +56,10 @@ export function useProduct(){
   return {
     loading,
     error,
-    products,
-    getProducts,
-    addProduct,
-    updateProduct,
-    deleteProduct
+    tables,
+    getTables,
+    addTable,
+    updateTable,
+    deleteTable
   }
 }
