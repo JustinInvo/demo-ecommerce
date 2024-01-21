@@ -18,7 +18,7 @@ export function AddEditCategoryForm(props) {
     onSubmit: async (formValue) => {
       try{
         if(category) await updateCategory(category.id, formValue)
-        else  await addCategory(formValue);
+        else await addCategory(formValue);
         onRefetch();
         onClose();
       }catch(error){

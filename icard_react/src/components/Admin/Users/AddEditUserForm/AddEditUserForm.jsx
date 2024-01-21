@@ -74,7 +74,7 @@ function initialValues(data) {
     first_name: data?.first_name || "",
     last_name: data?.last_name || "",
     password: "",
-    is_active:data?.is_active!= '' ? true : null,
+    is_active: data?.is_active!= '' ? true : null,
     is_staff: data?.is_staff || false,
   }
 }
