@@ -1,11 +1,12 @@
 import { useState } from "react";
-import { getTablesApi, addTableApi, updateTableApi, deleteTableApi } from "../api/table";
+import { getTablesApi, addTableApi, updateTableApi, deleteTableApi, getTableApi } from "../api/table";
 import { useAuth } from "./"
 
 export function useTable(){
   const [ loading, setLoading ] = useState(true)
   const [ error, setError ] = useState(false)
   const [ tables, setTables ] = useState(true)
+  const [ table, setTable ] = useState(true)
   const { auth } = useAuth()
 
   const getTables = async () => {
@@ -53,13 +54,27 @@ export function useTable(){
     }
   }
 
+  const getTable = async (id) => {
+    try{
+      setLoading(true)
+      const response = await getTableApi(id)
+      setTable(response)
+    }catch(error){
+      setError(error)
+    }finally{
+      setLoading(false)
+    }
+  }
+
   return {
     loading,
     error,
     tables,
+    table,
     getTables,
     addTable,
     updateTable,
-    deleteTable
+    deleteTable,
+    getTable
   }
 }
