@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { getOrdersByTableApi } from "../../../../api/orders"
 import { ORDER_STATUS } from '../../../../utils/constans';
 import { Label, Button, Icon, Checkbox } from 'semantic-ui-react';
+import { usePayment } from "../../../../hooks"
 // import IcTable from "../../../../assets/table.svg"
 import "./TableAdmin.scss"
 
@@ -11,6 +12,9 @@ export function TableAdmin(props) {
   const { table, reload } = props;
   const [ orders, setOrders ] = useState([])
   const [ tableBusy, setTableBusy ] = useState([])
+  const [ pendingPayment, setPendingPayment ] = useState(false)
+  const { getPaymentByTable } = usePayment()
+
   useEffect(()=> {
     (async()=>{
       const response = await getOrdersByTableApi(
@@ -19,6 +23,7 @@ export function TableAdmin(props) {
       setOrders(response)
     })();
   }, [reload])
+
   useEffect(()=> {
     (async()=>{
       const response = await getOrdersByTableApi(
@@ -28,6 +33,15 @@ export function TableAdmin(props) {
       else setTableBusy(false)
     })();
   }, [reload])
+
+  useEffect(()=> {
+    (async()=>{
+      const response = await getPaymentByTable(table.id);
+      if(size(response) > 0) setPendingPayment(true)
+      else setPendingPayment(false)
+    })();
+  }, [reload])
+
   return (
     <Link className='table-admin' to={`/admin/table/${table.id}`}>
       {size(orders)>0 ?(
@@ -35,7 +49,14 @@ export function TableAdmin(props) {
           {size(orders)}
         </Label>
       ) : null}
-      <svg className={size(orders) > 0 ? 'pending': tableBusy ? 'busy' : null}
+
+      {pendingPayment && (
+        <Label circular color="orange">
+          Cuenta
+        </Label>
+      )}
+
+      <svg className={size(orders) > 0 ? 'pending': tableBusy ? 'busy' : pendingPayment ? 'pending-payment' : null}
         version="1.0" xmlns="http://www.w3.org/2000/svg"
         width="225.000000pt" height="225.000000pt" viewBox="0 0 225.000000 225.000000"
         preserveAspectRatio="xMidYMid meet">

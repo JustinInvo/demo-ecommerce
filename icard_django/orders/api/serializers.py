@@ -13,5 +13,6 @@ class OrderSerializer(ModelSerializer):
                     'id', 'status', 
                     'table', 'table_data', 
                     'product', 'product_data',
+                    'payment',
                     'close', 'created_at'
                 ]
