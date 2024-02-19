@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { getProductsApi, addProductApi, updateProductApi, deleteProductApi, getProductsByIdApi } from "../api/product"
+import { getProductsApi, addProductApi, updateProductApi, deleteProductApi, getProductsByIdApi, getProductsByCategoryApi } from "../api/product"
 import { useAuth } from "./"
 
 export function useProduct(){
@@ -64,6 +64,18 @@ export function useProduct(){
     }
   }
 
+  const getProductsByCategory = async (idCategory) => {
+    try{
+      setLoading(true)
+      const response  = await getProductsByCategoryApi(idCategory)
+      setProducts(response)
+    }catch(error){
+      setError(error)
+    }finally{
+      setLoading(false)
+    }
+  }
+
   return {
     loading,
     error,
@@ -72,6 +84,7 @@ export function useProduct(){
     addProduct,
     updateProduct,
     deleteProduct,
-    getProductsById
+    getProductsById,
+    getProductsByCategory
   }
 }
